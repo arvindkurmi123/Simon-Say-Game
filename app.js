@@ -5,7 +5,8 @@ let started = false;
 let level = 0;
 
 let h2 = document.querySelector('h2');
-
+let btnaudio = document.querySelector('#btnaudio');
+let gameoveraudio = document.querySelector('#gameover-audio');
 let btns= ['yellow','purple','red','green'];
 let startbtn = document.querySelector('#startbtn');
 startbtn.addEventListener('click',function(){
@@ -28,6 +29,7 @@ function gameFlash(btn){
     }, 350);
 }
 function userFlash(btn){
+    btnaudio.play();
     btn.classList.add('userflash');
     // timeout (handler function, time)
     setTimeout(() => {
@@ -81,6 +83,7 @@ for(let btn of allBtns){
 }
 function gameOver(){
     // console.log("Game Over!");
+    gameoveraudio.play();
     started = false;
     h2.innerHTML = `Game Over! Your score is <b>${level-1}</b> </br> Press the button to start again.`;
     startbtn.innerText = 'Start Again';
