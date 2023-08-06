@@ -12,33 +12,27 @@ startbtn.addEventListener('click',function(){
     if(started==false){
         started = true;
         this.innerText = 'End';
-        levelUp();
+        // console.log("level up 1 called");
+        levelUp();          // -------------------------------------> level up 1
     }else{
         started = false;
         gameOver();
     }
 
 });
-// document.addEventListener('keypress',function(){
-//     if(started==false){
-//         // console.log('game is started');
-//         started  = true;
-//         levelUp();
-//     }
-// });
 function gameFlash(btn){
     btn.classList.add('gameflash');
     // timeout (handler function, time)
     setTimeout(() => {
         btn.classList.remove('gameflash');
-    }, 250);
+    }, 350);
 }
 function userFlash(btn){
     btn.classList.add('userflash');
     // timeout (handler function, time)
     setTimeout(() => {
         btn.classList.remove('userflash');
-    }, 150);
+    }, 100);
 }
 function levelUp(){
     userSeq=[];
@@ -55,13 +49,15 @@ function levelUp(){
     // console.log(randbtn);
     gameFlash(randbtn);
     gameSeq.push(randcolor);
+    // console.log(`gamesequence is ${gameSeq}`);
 }
 function checkans(idx){
     if(userSeq[idx]!=gameSeq[idx] && started==true){
-        gameOver();
+        setTimeout(gameOver,600);
     }else{
         if(userSeq.length == gameSeq.length){
-            setTimeout(levelUp,1000);
+            // console.log("level up 2 called");
+            setTimeout(levelUp,500);  // ----------------------------------------------> level up 2
         }
     }
 }
@@ -71,10 +67,12 @@ function btnpress(){
     // console.dir(btn);
     userFlash(btn);
 
-    let color = btn.getAttribute('id');
-    userSeq.push(color);
-    // console.log(userSeq);
-    checkans(userSeq.length-1);
+    if(started==true){
+        let color = btn.getAttribute('id');
+        userSeq.push(color);
+        // console.log("usersequence is "+userSeq);
+        checkans(userSeq.length-1);
+    }
 }
 
 let allBtns = document.querySelectorAll('.btn');
@@ -82,15 +80,15 @@ for(let btn of allBtns){
     btn.addEventListener('click',btnpress);
 }
 function gameOver(){
+    // console.log("Game Over!");
     started = false;
     h2.innerHTML = `Game Over! Your score is <b>${level-1}</b> </br> Press the button to start again.`;
     startbtn.innerText = 'Start Again';
     let body = document.querySelector('body');
     body.classList.add('bodybgred');
     setTimeout(() => {
-        console.log("hey");
         body.classList.remove('bodybgred');
-    }, 300);
+    }, 200);
     level = 0;
     gameSeq = [];
     userSeq = [];
